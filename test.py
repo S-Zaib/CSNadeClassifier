@@ -14,9 +14,9 @@ intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-# Supported URL patterns
-INSTAGRAM_URL_PATTERN = r'https?://(www\.)?(instagram\.com|instagr\.am)/reel/[a-zA-Z0-9_-]+'
-YOUTUBE_URL_PATTERN = r'https?://(www\.)?(youtube\.com/shorts/|youtu\.be/)[a-zA-Z0-9_-]+'
+# Supported URL patterns - updated to capture the full URL
+INSTAGRAM_URL_PATTERN = r'(https?://(www\.)?(instagram\.com|instagr\.am)/reel/[a-zA-Z0-9_-]+\S*)'
+YOUTUBE_URL_PATTERN = r'(https?://(www\.)?(youtube\.com/shorts/|youtu\.be/)[a-zA-Z0-9_-]+\S*)'
 
 @bot.event
 async def on_ready():
@@ -29,17 +29,19 @@ async def on_message(message):
         return
     
     # Check if message contains Instagram reel URL
-    instagram_urls = re.findall(INSTAGRAM_URL_PATTERN, message.content)
-    if instagram_urls:
-        for match in instagram_urls:
-            url = match[0]  # Extract the full URL
+    instagram_matches = re.findall(INSTAGRAM_URL_PATTERN, message.content)
+    if instagram_matches:
+        for match in instagram_matches:
+            # The first element of the tuple is the full URL
+            url = match[0]  # Extract the full URL from the tuple
             await download_and_send_media(message, url, 'instagram')
     
     # Check if message contains YouTube shorts URL
-    youtube_urls = re.findall(YOUTUBE_URL_PATTERN, message.content)
-    if youtube_urls:
-        for match in youtube_urls:
-            url = match[0]  # Extract the full URL
+    youtube_matches = re.findall(YOUTUBE_URL_PATTERN, message.content)
+    if youtube_matches:
+        for match in youtube_matches:
+            # The first element of the tuple is the full URL
+            url = match[0]  # Extract the full URL from the tuple
             await download_and_send_media(message, url, 'youtube')
     
     # Process commands
