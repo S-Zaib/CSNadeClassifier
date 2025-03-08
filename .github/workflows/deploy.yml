@@ -37,8 +37,6 @@ jobs:
       
       - name: Build and Push Docker image
         uses: docker/build-push-action@v6
-        env:
-          REPO_OWNER_LOWER: ${{ env.REPO_OWNER_LOWER }}
         with:
           context: .
           platforms: linux/amd64,linux/arm64
@@ -47,6 +45,10 @@ jobs:
             ghcr.io/${{ env.REPO_OWNER_LOWER }}/csnadeclassifier:${{ env.TAG }}
             ghcr.io/${{ env.REPO_OWNER_LOWER }}/csnadeclassifier:latest
             ghcr.io/${{ env.REPO_OWNER_LOWER }}/csnadeclassifier:${{ env.TAG }}-${{ env.SHA_SHORT }}
-          secrets: |
-            "bot_token=${{ secrets.BOT_TOKEN }}"
-            "gemini_api_key=${{ secrets.GEMINI_API_KEY }}"
+      
+      - name: Deploy with Docker Compose
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          docker compose up -d

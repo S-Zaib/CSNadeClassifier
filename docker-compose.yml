@@ -1,9 +1,18 @@
 version: "3.8"
 
 services:
-  discord-bot:
-    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/csnadeclassifier:latest
+  bot:
+    image: ghcr.io/s-zaib/csnadeclassifier:latest  # Ensure lowercase repo name
     restart: unless-stopped
     environment:
-      - BOT_TOKEN=${BOT_TOKEN}
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - BOT_TOKEN_FILE=/run/secrets/bot_token
+      - GEMINI_API_KEY_FILE=/run/secrets/gemini_api_key
+    secrets:
+      - bot_token
+      - gemini_api_key
+
+secrets:
+  bot_token:
+    environment: "BOT_TOKEN"
+  gemini_api_key:
+    environment: "GEMINI_API_KEY"
