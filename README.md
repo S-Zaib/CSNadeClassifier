@@ -130,10 +130,6 @@ The Discord bot requires these permissions:
 - Attach Files
 - Read Message History
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## Acknowledgments
 
 - [discord.py](https://github.com/Rapptz/discord.py)
