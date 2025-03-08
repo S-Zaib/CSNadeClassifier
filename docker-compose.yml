@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  discord-bot:
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/csnadeclassifier:latest
+    restart: unless-stopped
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
