@@ -22,4 +22,4 @@ RUN --mount=type=secret,id=bot_token,env=BOT_TOKEN \
     echo "BOT_TOKEN and GEMINI_API_KEY secrets injected securely."
 
 # Command to run the bot
-CMD ["python", "bot.py"]
+CMD ["python", "main.py"]
